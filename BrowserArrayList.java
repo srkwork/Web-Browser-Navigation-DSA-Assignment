@@ -43,7 +43,7 @@ public class BrowserArrayList<T> implements Iterable<T>{
             rear = size;
         }
         items[rear] = data;
-        rear = (rear+1) % capacity; // Circular increment
+        rear = (rear+1) % capacity; // Circular increment for enqueing
         size++;
         return true;
     }
@@ -53,7 +53,7 @@ public class BrowserArrayList<T> implements Iterable<T>{
         if(size == 0) return null;
 
         T it = items[front];
-        front = (front+1) % capacity;
+        front = (front+1) % capacity; // Circular increment for dequeing
         size--;
         return it;
     }
