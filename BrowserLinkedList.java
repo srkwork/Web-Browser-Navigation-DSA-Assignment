@@ -68,6 +68,12 @@ public class BrowserLinkedList<T> implements Iterable<T> {
         return removedHead;
     }
 
+    // Peek at the head node
+    public T peekFirst(){
+        if(isEmpty()) throw new NoSuchElementException("List is empty");
+        return head.data;
+    }
+
 
     @Override
     public Iterator<T> iterator() {
