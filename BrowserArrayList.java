@@ -30,7 +30,7 @@ public class BrowserArrayList<T> implements Iterable<T>{
 
     // Adding item to the queue (Enqueue)
     public boolean add(T data){
-        if(size == 0) return false;
+        if(data == null) return false;
 
         if(size == capacity){
             T[] newItems = (T[]) new Object[capacity * 2];
