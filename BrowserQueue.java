@@ -30,6 +30,10 @@ public class BrowserQueue<T> implements Iterable<T> {
         list = new BrowserArrayList<T>();
     }
 
+    public int size(){
+        return list.getSize();
+    }
+
     
 
     @Override
