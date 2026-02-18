@@ -1,0 +1,156 @@
+import java.io.*;
+import java.nio.file.*;
+import java.util.*;
+
+public class BrowserNavigation {
+    private String currentPage;
+    private BrowserStack<String> backStack;
+    private BrowserStack<String> forwardStack;
+    private BrowserQueue<String> historyQueue;
+
+    public BrowserNavigation(){
+        currentPage = null;
+        backStack = new BrowserStack<>();
+        forwardStack = new BrowserStack<>();
+        historyQueue = new BrowserQueue<>();
+    }
+
+    public void visitWebsite(String url){
+
+        if(url == null) return;
+
+        // Pushing the current page to BACK before changing pages
+        if(currentPage != null) backStack.push(currentPage);
+
+        // Visiting a new page clears forward history
+        forwardStack.clear();
+        
+        // Updating current page and history
+        currentPage = url;
+        historyQueue.enqueue(url);
+    }
+
+    public String goBack(){
+        if(backStack.isEmpty()) return currentPage; // No change
+        
+        // CurrentPage becomes part of forward history
+        if(currentPage != null) forwardStack.push(currentPage);
+
+        // Popping from backward and making it the new current
+        currentPage = backStack.pop();
+        return currentPage;
+    }
+
+    public String goForward(){
+        if(forwardStack.isEmpty()) return currentPage; // No change
+
+        // CurrentPage becomes part of backward history
+        if(currentPage != null) backStack.push(currentPage);
+
+        // Popping from forward and making it the new current
+        currentPage = forwardStack.pop();
+        return currentPage;
+    }
+
+    public String showHistory(){
+        if(historyQueue.isEmpty()) return "No browsing history available";
+
+
+        StringBuilder history = new StringBuilder();
+        for(String str: historyQueue){
+            history.append(str).append("\n");
+        }
+        return history.toString();
+    }
+
+    public void clearHistory(){
+        historyQueue.clear();
+    }
+
+    public void closeBrowser(){
+        Path filePath = Path.of("session_data.txt");
+
+        try {
+            StringBuilder sb = new StringBuilder();
+
+            // Save current page
+            sb.append("CURRENT\n");
+            sb.append(currentPage == null ? "null" : currentPage).append("\n");
+
+            // Save back stack
+            sb.append("BACK\n");
+            for(String page: backStack){
+                sb.append(page).append("\n");
+            }
+            
+            // Save forward stack
+            sb.append("FORWARD\n");
+            for(String page: forwardStack){
+                sb.append(page).append("\n");
+            }
+
+            Files.writeString(filePath, sb.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void restoreLastSession(){
+        File file = new File("session_data.txt");
+        if(!file.exists()) return;
+
+        // Start clean
+        backStack.clear();
+        forwardStack.clear();
+
+        // Temporary buffers for restoration
+        List<String> backLines = new ArrayList<>();
+        List<String> forwardLines = new ArrayList<>();
+
+        try{
+
+            Scanner fileScnr = new Scanner(file);
+            String section = "";
+
+            while(fileScnr.hasNextLine()){
+                String line = fileScnr.nextLine();
+
+                if(line.equals("CURRENT")){
+                    section = "CURRENT";
+                    
+                    // Next line is the actual current page
+                    if(fileScnr.hasNextLine()){
+                        String page = fileScnr.nextLine();
+                        currentPage = page.equals("null") ? null : page;
+                    }
+                    continue;
+                }
+
+                if(line.equals("BACK")){
+                    section = "BACK";
+                    continue;
+                }
+                if(line.equals("FORWARD")){
+                    section = "FORWARD";
+                    continue;
+                }
+
+                // Data lines
+                if(section.equals("BACK")) backLines.add(line);
+                else if(section.equals("FORWARD")) forwardLines.add(line);
+
+
+                // Pusing in reverse so the original top is restored as the top.
+                for(int i = backLines.size() - 1; i >= 0; i--){
+                    backStack.push(backLines.get(i));
+                }
+                for(int i = forwardLines.size() - 1; i >= 0; i--){
+                    forwardStack.push(forwardLines.get(i));
+                }
+            }
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+}
