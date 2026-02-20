@@ -4,56 +4,66 @@ public class Main{
         BrowserNavigation browser = new BrowserNavigation();
         browser.restoreLastSession();
         Scanner input = new Scanner(System.in);
-
-        String command;
+        
+        String commandLine;
 
         do { 
             
             System.out.println("Enter a command: ");
-            command = input.nextLine();
+            commandLine = input.nextLine().trim();
 
-            if(command.startsWith("visit ")){
-                // Splitting spaces to extract url
-                String[] strArr = command.split("\\s+");
 
-                if(strArr.length < 2){
-                    System.out.println("Usage: visit <url>");
-                }
-                else{
-                    String url = strArr[1];
-                    browser.visitWebsite(url);
-                }
+            if(commandLine.isEmpty()){
+                System.out.println("Invalid command");
+                continue;
             }
-            else{
-                switch(command){
-                    case "back":
-                        browser.goBack();
-                        break;
-                    
-                    case "forward":
-                        browser.goForward();
-                        break;
+            
+            // Splitting all spaces
+            String[] parts = commandLine.split("\\s+");
+            
+            // Getting the command from the parts array
+            String command = parts[0];
+            switch(command){
 
-                    case "history":
-                        System.out.println(browser.showHistory());
-                        break;
+                case "visit":
+                    if(parts.length < 2){
+                        System.out.println("Usage: visit <url>");
+                    }
+                    else{
+                        String url = parts[1];
+                        browser.visitWebsite(url);
+                    }
+                    
+                    break;
+                    
+                case "back":
+                    browser.goBack();
+                    break;
+                
+                case "forward":
+                    browser.goForward();
+                    break;
 
-                    case "clear":
-                        browser.clearHistory();
-                        break;
-                    
-                    case "close":
-                        browser.closeBrowser();
-                        break;
-                    
-                    case "exit":
-                        browser.closeBrowser();
-                        break;
-                    default:
-                        System.out.println("Invalid command.");
-                }
+                case "history":
+                    System.out.println(browser.showHistory());
+                    break;
+
+                case "clear":
+                    browser.clearHistory();
+                    break;
+                
+                case "close":
+                    browser.closeBrowser();
+                    break;
+                
+                case "exit":
+                    browser.closeBrowser();
+                    break;
+                default:
+                    System.out.println("Invalid command.");
             }
-        } while (!command.equals("exit"));
+            
+        } while (!commandLine.equals("exit"));
         input.close();
 
     }

@@ -89,6 +89,12 @@ public class BrowserNavigation {
                 sb.append(page).append("\n");
             }
 
+            // Save history queue
+            sb.append("HISTORY\n");
+            for(String page: historyQueue){
+                sb.append(page).append("\n");
+            }
+
             Files.writeString(filePath, sb.toString());
         } catch (IOException e) {
             e.printStackTrace();
@@ -102,10 +108,13 @@ public class BrowserNavigation {
         // Start clean
         backStack.clear();
         forwardStack.clear();
+        historyQueue.clear();
+        currentPage = null;
 
         // Temporary buffers for restoration
         List<String> backLines = new ArrayList<>();
         List<String> forwardLines = new ArrayList<>();
+        List<String> historyLines = new ArrayList<>();
 
         try{
 
@@ -135,20 +144,31 @@ public class BrowserNavigation {
                     continue;
                 }
 
+                if(line.equals("HISTORY")){
+                    section = "HISTORY";
+                    continue;
+                }
+
                 // Data lines
                 if(section.equals("BACK")) backLines.add(line);
                 else if(section.equals("FORWARD")) forwardLines.add(line);
+                else if(section.equals("HISTORY")) historyLines.add(line);
+                
 
-
-                // Pusing in reverse so the original top is restored as the top.
-                for(int i = backLines.size() - 1; i >= 0; i--){
-                    backStack.push(backLines.get(i));
-                }
-                for(int i = forwardLines.size() - 1; i >= 0; i--){
-                    forwardStack.push(forwardLines.get(i));
-                }
+            }
+            // Pushing the stacks in reverse so the original top is restored as the top due to LIFO.
+            for(int i = backLines.size() - 1; i >= 0; i--){
+                backStack.push(backLines.get(i));
+            }
+            for(int i = forwardLines.size() - 1; i >= 0; i--){
+                forwardStack.push(forwardLines.get(i));
             }
 
+            // Pushing the queue in order so the original top is restored as the top due to FIFO.
+            for(int i = 0; i < historyLines.size(); i++){
+                historyQueue.enqueue(historyLines.get(i));
+            }
+            fileScnr.close();
         }catch(Exception e){
             e.printStackTrace();
         }
