@@ -27,6 +27,7 @@ public class BrowserNavigation {
         
         // Updating current page and history
         currentPage = url;
+        System.out.println("\nNow at " + currentPage + "\n");
         historyQueue.enqueue(url);
     }
 
@@ -38,6 +39,7 @@ public class BrowserNavigation {
 
         // Popping from backward and making it the new current
         currentPage = backStack.pop();
+        System.out.println("\nNow at " + currentPage + "\n");
         return currentPage;
     }
 
@@ -49,6 +51,7 @@ public class BrowserNavigation {
 
         // Popping from forward and making it the new current
         currentPage = forwardStack.pop();
+        System.out.println("\nNow at " + currentPage + "\n");
         return currentPage;
     }
 
