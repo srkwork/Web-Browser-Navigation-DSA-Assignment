@@ -2,6 +2,7 @@ import java.io.*;
 import java.nio.file.*;
 import java.util.*;
 
+// BrowserNagivation class is used to help with browsing
 public class BrowserNavigation {
     private String currentPage;
     private BrowserStack<String> backStack;
