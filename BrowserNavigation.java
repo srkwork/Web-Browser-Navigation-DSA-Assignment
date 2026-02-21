@@ -15,6 +15,7 @@ public class BrowserNavigation {
         historyQueue = new BrowserQueue<>();
     }
 
+    // Method to visit website
     public void visitWebsite(String url){
 
         if(url == null) return;
@@ -31,6 +32,7 @@ public class BrowserNavigation {
         historyQueue.enqueue(url);
     }
 
+    // Method to go to the previous page
     public String goBack(){
         if(backStack.isEmpty()) return currentPage; // No change
         
@@ -43,6 +45,7 @@ public class BrowserNavigation {
         return currentPage;
     }
 
+    // Method to move to the next page
     public String goForward(){
         if(forwardStack.isEmpty()) return currentPage; // No change
 
@@ -55,21 +58,26 @@ public class BrowserNavigation {
         return currentPage;
     }
 
+    // Method to display browsing history (if it exists)
     public String showHistory(){
         if(historyQueue.isEmpty()) return "No browsing history available";
 
 
         StringBuilder history = new StringBuilder();
+        
+        // Storing the urls visited
         for(String str: historyQueue){
             history.append(str).append("\n");
         }
         return history.toString();
     }
 
+    // Method to delete browsing history
     public void clearHistory(){
         historyQueue.clear();
     }
 
+    // Method to close browser
     public void closeBrowser(){
         Path filePath = Path.of("session_data.txt");
 
@@ -98,12 +106,14 @@ public class BrowserNavigation {
                 sb.append(page).append("\n");
             }
 
+            // Writing data to the filePath (session_data.txt)
             Files.writeString(filePath, sb.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    // Method to restore previous session in browser
     public void restoreLastSession(){
         File file = new File("session_data.txt");
         if(!file.exists()) return;
@@ -124,6 +134,7 @@ public class BrowserNavigation {
             Scanner fileScnr = new Scanner(file);
             String section = "";
 
+            // Reading file contents
             while(fileScnr.hasNextLine()){
                 String line = fileScnr.nextLine();
 
