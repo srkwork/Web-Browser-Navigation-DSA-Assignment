@@ -30,6 +30,6 @@
     * backStack stores previously visited pages (LIFO)
     * forwardStack stores pages you can return to after going back (LIFO)
 
-### Browsing History
+#### Browsing History
 * Implemented using a queue (historyQueue) to preserve chronological order (FIFO)
 * Queue uses a circular array (BrowserArrayList) for efficient enqueue/dequeue
