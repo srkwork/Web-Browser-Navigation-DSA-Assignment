@@ -33,3 +33,20 @@
 #### Browsing History
 * Implemented using a queue (historyQueue) to preserve chronological order (FIFO)
 * Queue uses a circular array (BrowserArrayList) for efficient enqueue/dequeue
+
+### 3.2 Why
+* Stacks naturally model browser navigation becuase the most recent page you can go back to should be visited first (LIFO)
+* A queue naturally models browsing history because entries should appear in the order they were visited (FIFO)
+* BrowserArrayList is a circular buffer to avoid shifting elements, and it resizes by doubling when full.
+
+### 3.3 Session Save/Restore Format
+#### closeBrowser() writes to session_data.txt in labeled sections:
+
+#### CURRENT
+#### <currentPage or null>
+#### BACK
+#### <back stack elements>
+#### FORWARD
+#### <forward stack elements>
+#### HISTORY
+#### <history queue elements>
