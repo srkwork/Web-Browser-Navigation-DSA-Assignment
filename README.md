@@ -95,3 +95,59 @@ HISTORY
 #### 6. Close + Restore Session
 * Run 1: visit pages, back/forward, close, exit
 * Run 2: program auto-resotres previous current/back/forward/history
+
+
+## 5. Time Complexity Analysis (Upper Bound Big-O)
+### 5.1 BrowserLinkedList(used by stack)
+* addFirst -> O(1)
+* removeFirst -> O(1)
+* peekFirst -> O(1)
+* iterator traversal over n nodes -> O(n) total
+
+### 5.2 BrowserStack (wraps BrowserLinkedList)
+* push -> O(1)
+* pop -> O(1)
+* peek -> O(1)
+* isEmpty -> O(1)
+* clear -> O(1) (replaces list reference)
+* iterating over n stack elements -> O(n) total
+
+### 5.3 BrowserArrayList (circular queue + resizing)
+###### Let n = current size.
+* add (enqueue):
+    * amortized O(1)
+    * worse-case O(n) when resizing (copying n elements)
+* remove (dequeue) -> O(1)
+* peek -> O(1)
+* clear -> O(1)
+* iterator traversal over n elements -> O(n) total
+
+### 5.4 BrowserQueue (wraps BrowserArrayList)
+* enqueue:
+    * amortized O(1)
+    * worst-case O(n) during resize
+* dequeue -> O(1)
+* peek -> O(1)
+* isEmpty -> O(1)
+* clear -> O(1)
+* size -> O(1)
+* iterating over n elements -> O(n) total
+
+### 5.5 BrowserNavigation
+##### Let:
+* b = size of backstack
+* f = size of forwardStack
+* h = size of historyQueue
+* L = number of lines in the session files (b + f + h + constants)
+
+* visitWebsite(url):
+    * push to backStack + clear forward + enqueue history -> amortized O(1) (queue resize worst-case O(h))
+* goBack() -> O(1)
+* goForward() -> O(1)
+* showHistory() -> O(h) (builds a string by iterating)
+* clearHistory() -> O(1)
+* closeBrowser -> O(b + f + h) (iterates all structures to write)
+* restoreLastSession() -> O(L) to read + O(b + f + h) to rebuild
+    * overall O(b + f + h)
+
+
