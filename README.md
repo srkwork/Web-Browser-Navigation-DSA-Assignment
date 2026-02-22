@@ -53,3 +53,25 @@ FORWARD
 HISTORY
 <history queue elements>
 ```
+
+#### restoreLastSession() parses this file using a "section mode" approach and rebuilds:
+* currentPage
+* backStack (pushed in reverse order to preserve stack top)
+* forwardStack (pushed in reverse order)
+* historyQueue (enqueued in forward order)
+
+
+## 4. Testing Strategy & Test Cases
+### Supported Commands:
+* visit `&lt;url&gt;
+* back
+* forward
+* history
+* clear
+* close
+* exit
+
+### Key Test Cases (Summary)
+####    1. Empty Start/Missing session file
+        * Commands: history, back, forward, exit
+        * Expected: no crashes; history prints "No browsing history available."
