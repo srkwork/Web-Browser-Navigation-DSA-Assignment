@@ -42,11 +42,14 @@
 ### 3.3 Session Save/Restore Format
 #### closeBrowser() writes to session_data.txt in labeled sections:
 
-#### CURRENT
-#### <currentPage or null>
-#### BACK
-#### <back stack elements>
-#### FORWARD
-#### <forward stack elements>
-#### HISTORY
-#### <history queue elements>
+
+```
+CURRENT
+<currentPage or null>
+BACK
+<back stack elements>
+FORWARD
+<forward stack elements>
+HISTORY
+<history queue elements>
+```
