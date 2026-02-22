@@ -72,6 +72,26 @@ HISTORY
 * exit
 
 ### Key Test Cases (Summary)
-####   1. Empty Start/Missing session file
+#### 1. Empty Start/Missing session file
 * Commands: history, back, forward, exit
 * Expected: no crashes; history prints "No browsing history available."
+
+#### 2. Visit + History Order
+* Commands: visit google.com, visit youtube.com, history
+* Expected history: google.com, youtube.com (oldest to newest)
+
+### 3. Back/Forward Navigation
+* Commands: visit google.com, visit youtube.com, visit github.com, back, back, forward
+* Expected current page: youtube.com
+
+### 4. Forward Cleared After Visiting New Page
+* Commands: visit google.com, visit youtube.com, visit github.com, back, visit twitter.com, forward
+* Expected: forward does nothing after visiting x
+
+### 5. Clear History
+* Commands: visit google.com, visit youtube.com, clear, history
+* Expected: "No browsing history available."
+
+### 6. Close + Restore Session
+* Run 1: visit pages, back/forward, close, exit
+* Run 2: program auto-resotres previous current/back/forward/history
