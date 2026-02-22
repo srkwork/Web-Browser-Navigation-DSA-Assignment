@@ -1,4 +1,4 @@
-# README/Repost --- CS3345 Assignment 01: Web Browser Navigation System
+# README/Report --- CS3345 Assignment 01: Web Browser Navigation System
 
 ## Student Information
 * Name: Saaketh Katikareddy
