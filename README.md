@@ -72,6 +72,6 @@ HISTORY
 * exit
 
 ### Key Test Cases (Summary)
-####    1. Empty Start/Missing session file
-        * Commands: history, back, forward, exit
-        * Expected: no crashes; history prints "No browsing history available."
+####   1. Empty Start/Missing session file
+* Commands: history, back, forward, exit
+* Expected: no crashes; history prints "No browsing history available."
