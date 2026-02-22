@@ -151,3 +151,8 @@ HISTORY
     * overall O(b + f + h)
 
 
+## 6. Performance Enhancements
+* used circular array in BrowserArrayList to ensure dequeue does not require shifting
+* Used dynamic resizing (doubling capacity) to keep amortized enqueue cost near O(1).
+* Used section-based parsing and temporary buffers to restore stacks without reversing navigation order.
+
