@@ -1,2 +1,7 @@
-# IMPORTANT
-### Make sure you clear out the session_data.txt before you run again.
+# README/Repost --- CS3345 Assignment 01: Web Browser Navigation System
+
+## Student Information
+* Name: Saaketh Katikareddy
+* NetID: srk230016
+* Section: 005
+
